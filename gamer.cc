@@ -1,76 +1,87 @@
 #include "gamer.h"
 
-all_sensors::all_sensors()
-: Stench{false}
-, Breeze{false}
-, Glitter{false}
-, Scream{false}
-, Bump{false}
-{}
-
-gamer::gamer()
+gamer::gamer(std::unique_ptr<agent>&& agent)
 : m_iArrow{1}
 , m_orientation{RIGHT}
+, m_agent{std::move(agent)}
 {}
 
-void
-gamer::setStench(bool stench)
+orientation
+gamer::getOrientation()
 {
-	m_sensors.Stench = stench;
+	return m_orientation;
+}
+
+actions
+gamer::nextAction(const all_sensors& as, world& w)
+{
+	m_agent->nextAction(as, w);
 }
 
 void
-gamer::setBreeze(bool breeze)
+gamer::setOrientation(orientation o)
 {
-	m_sensors.Breeze = breeze;
+	m_orientation = o;
 }
 
 void
-gamer::setGlitter(bool glitter)
+gamer::setGold(bool gold)
 {
-	m_sensors.Glitter = glitter;
+	m_gold = gold;
+}
+
+bool
+gamer::getGold()
+{
+	return m_gold;
 }
 
 void
-gamer::setScream(bool scream)
+gamer::setGamerAlive(bool alive)
 {
-	m_sensors.Scream = scream;
+	m_gamerAlive = alive;
+}
+
+bool
+gamer::getGamerAlive()
+{
+	return m_gamerAlive;
 }
 
 void
-gamer::setBump(bool bump)
+gamer::setWumpusAlive(bool wumpus)
 {
-	m_sensors.Bump = bump;
+	m_wumpusAlive = wumpus;
 }
 
 bool
-gamer::getStench()
+gamer::getWumpusAlive()
 {
-	return m_sensors.Stench;
+	return m_wumpusAlive;
 }
 
-bool
-gamer::getBreeze()
+void
+gamer::setArrow(int arrow)
 {
-	return m_sensors.Breeze;
+	m_iArrow = arrow;
 }
 
-bool
-gamer::getGlitter()
+int
+gamer::getArrow()
 {
-	return m_sensors.Glitter;
+	return m_iArrow;
 }
 
-bool
-gamer::getScream()
+void
+gamer::setLastY(int ly)
 {
-	return m_sensors.Scream;
+	m_agent->setLastY(ly);
 }
 
-bool
-gamer::getBump()
+void
+gamer::setLastX(int lx)
 {
-	return m_sensors.Bump;
+	m_agent->setLastX(lx);
 }
 
 gamer::~gamer()

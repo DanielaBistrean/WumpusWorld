@@ -1,47 +1,60 @@
 // #include <ncurses.h>
+#include <iostream>
+#include <time.h>
 
 #include "agent.h"
+#include "world.h"
 
-// static int max_x, max_y;
-
-// void print_frame()
-// {
-// 	int i;
-// 	for (i = 1; i < max_y - 1; i++)
-// 	{
-// 		mvaddch(i, 0, ACS_VLINE);
-// 		mvaddch(i, max_x - 1, ACS_VLINE);
-// 	}
-
-// 	for (i = 1; i < max_x - 1; i++)
-// 	{
-// 		mvaddch(0, i, ACS_HLINE);
-// 		mvaddch(max_y - 1, i, ACS_HLINE);
-// 	}
-
-// 	mvaddch(0, 0, ACS_ULCORNER);
-// 	mvaddch(max_y - 1, 0, ACS_LLCORNER);
-// 	mvaddch(0, max_x - 1, ACS_URCORNER);
-// 	mvaddch(max_y - 1, max_x - 1, ACS_LRCORNER);
-// }
+void instructions()
+{
+	std::cout << "Welcome to the Wumpus World Simulator!\n\n";
+	// std::cout << "Goal of the game: Grab the gold.\n\n";
+	std::cout << "Player moves:\n";
+	std::cout << "Move (F)orward, Turn (L)eft, Turn (R)ight, (G)rab the Gold, (S)hoot the Arrow, (Q)uit the game, Play (A)gain.\n\n";
+	std::cout << "Sensors: In the square\n";
+	std::cout << "1. containing the wumpus and in the directly (not diagonally) adjacent squares, there is a (S)tench.\n";
+	std::cout << "2. directly adjacent to a pit, there is a (B)reeze.\n";
+	std::cout << "3. where the gold is, there is a (G)litter.\n";
+	std::cout << "4. When the wumpus is killed, it (R)oars.\n\n";
+	std::cout << "Environment:\n";
+	std::cout << "1. one randomly located piece of gold.\n";
+	std::cout << "2. one randomly located wumpus (not moving).\n";
+	std::cout << "3. 20% of the randomly selected squares may have pits.\n\n";
+	std::cout << "Equipment:\nThe Hunter has 1 arrow.\n\n";
+	std::cout << "Notes:\n";
+	std::cout << "1. The Hunter dies if he is in the square with pit.\n";
+	std::cout << "2. The Hunter dies if he is in the square with a live wumpus.\n";
+	std::cout << "3. A shot arrow will kill wumpus in the direction the Hunter is facing.\n";
+}
 
 int
 main(int argc, char const *argv[])
 {
-	// initscr();
+	srand(time(nullptr));
 
-	// printw("WumpusWorld");
-
-	// refresh();
-	// getch();
-
-	// endwin();
-	// print_frame();
+	instructions();
 
 	agent a;
 	all_sensors as;
 
-	a.nextAction(as);
+	std::unique_ptr<gamer> g{new gamer{std::unique_ptr<agent> {new agent}}};
 
+	world w(4, 4);
+	w.setUserPos(std::move(g), 0, 0);
+	w.setSpecialPos(PIT, 2, 0);
+	w.setSpecialPos(WUMPUS, 0, 2);
+	w.setSpecialPos(PIT, 2, 2);
+	w.setSpecialPos(PIT, 3, 3);
+	w.setSpecialPos(GOLD, 1, 2);
+
+	do
+	{
+		// a.nextAction(as);
+		std::cin.get();
+		system("clear");
+		w.Print();
+	} while (w.nextStep());
+	std::cout << "Final score = " << w.GetScore() << "\n";
+	
 	return 0;
 }
