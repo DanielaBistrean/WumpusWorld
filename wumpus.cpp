@@ -8,9 +8,8 @@
 void instructions()
 {
 	std::cout << "Welcome to the Wumpus World Simulator!\n\n";
-	// std::cout << "Goal of the game: Grab the gold.\n\n";
 	std::cout << "Player moves:\n";
-	std::cout << "Move (F)orward, Turn (L)eft, Turn (R)ight, (G)rab the Gold, (S)hoot the Arrow, (Q)uit the game, Play (A)gain.\n\n";
+	std::cout << "Move (F)orward, Turn (L)eft, Turn (R)ight, (G)rab the Gold, (S)hoot the Arrow, (C)limb.\n\n";
 	std::cout << "Sensors: In the square\n";
 	std::cout << "1. containing the wumpus and in the directly (not diagonally) adjacent squares, there is a (S)tench.\n";
 	std::cout << "2. directly adjacent to a pit, there is a (B)reeze.\n";
