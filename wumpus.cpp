@@ -1,4 +1,3 @@
-// #include <ncurses.h>
 #include <iostream>
 #include <time.h>
 
@@ -24,6 +23,7 @@ void instructions()
 	std::cout << "1. The Hunter dies if he is in the square with pit.\n";
 	std::cout << "2. The Hunter dies if he is in the square with a live wumpus.\n";
 	std::cout << "3. A shot arrow will kill wumpus in the direction the Hunter is facing.\n";
+	std::cout << "Press any key to start the simulation ...";
 }
 
 int
